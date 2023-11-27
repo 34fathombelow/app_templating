@@ -1,0 +1,72 @@
+---
+# Source: apps/templates/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/34fathombelow/guestbook.git
+    targetRevision: env/dev
+    path: .
+  destination:
+    namespace: guestbook
+    server: https://host.k3d.internal:5000
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+---
+# Source: apps/templates/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-guestbook-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: helm-guestbook
+    helm:
+      valueFiles:
+      - values.yaml
+  destination:
+    namespace: helm-guestbook
+    server: https://host.k3d.internal:5000
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+---
+# Source: apps/templates/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustomize-guestbook-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/34fathombelow/guestbook.git
+    targetRevision: HEAD
+    path: env/dev
+  destination:
+    namespace: kustomize-guestbook
+    server: https://host.k3d.internal:5000
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
