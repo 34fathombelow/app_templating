@@ -1,0 +1,41 @@
+global:
+  env: prod
+  helmDefault: false
+  valuesFile: values-production.yaml
+  spec:
+    project: default
+    destination:
+      server: https://host.k3d.internal:5001
+      namespace: default
+    source:
+      repoURL: https://github.com/34fathombelow/guestbook.git
+      targetRevision: HEAD
+
+argoCDApplications:
+  guestbook:
+    disable: false
+    name: guestbook
+    namespace: guestbook
+    path: .
+    autoSync: true
+    helm: false
+    targetRevision: env/prod
+  
+  kustomizeGuestbook:
+    disable: false
+    name: kustomize-guestbook
+    namespace: kustomize-guestbook
+    path: env/prod
+    autoSync: true
+    helm: false
+#    targetRevision: HEAD
+  
+  helmGuestbook:
+    disable: false
+    name: helm-guestbook
+    namespace: helm-guestbook
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    path: helm-guestbook
+    autoSync: true
+    helm: true
+#    targetRevision: HEAD
