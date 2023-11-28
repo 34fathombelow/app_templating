@@ -11,8 +11,8 @@ global:
       repoURL: https://github.com/34fathombelow/guestbook.git
       targetRevision: HEAD
 
-argoCDApplications: # Rendered Manifest
-  guestbook:
+argoCDApplications:
+  guestbook: # Rendered Manifest
     disable: false
     name: guestbook
     namespace: guestbook
